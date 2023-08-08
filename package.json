@@ -1,0 +1,38 @@
+{
+  "name": "treelike-helper",
+  "version": "0.0.1",
+  "description": "Nested data tool functions",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "scripts": {
+    "dev": "father dev",
+    "build": "father build",
+    "build:deps": "father prebundle",
+    "prepublishOnly": "father doctor && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iclae/treelike-helper.git"
+  },
+  "keywords": [
+    "tree",
+    "nested"
+  ],
+  "authors": [
+    "iclae0@gmail.com"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist",
+    "compiled"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "father": "^4.3.0"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
