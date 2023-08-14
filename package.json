@@ -1,10 +1,11 @@
 {
   "name": "treelike-helper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Nested data tool functions",
-  "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
+    "test": "jest",
     "dev": "father dev",
     "build": "father build",
     "build:deps": "father prebundle",
@@ -30,9 +31,14 @@
     "access": "public"
   },
   "devDependencies": {
-    "father": "^4.3.0"
+    "@types/jest": "^29.5.3",
+    "father": "^4.3.0",
+    "jest": "^29.6.2",
+    "ts-jest": "^29.1.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.22.10",
+    "immer": "^10.0.2",
     "lodash": "^4.17.21"
   }
 }

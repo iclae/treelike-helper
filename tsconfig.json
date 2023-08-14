@@ -3,6 +3,11 @@
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "types": [
+      "jest",
+    ],
+    "esModuleInterop": true,
+    "module": "commonjs"
   }
 }
