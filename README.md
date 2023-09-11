@@ -44,7 +44,109 @@ mapTreeData(treeData, item => {
 ]
 ```
 
+---
 
+#### filterTreeData
+
+**param**: 
+
+1. treelikeData(Array): treelike data
+2. filterFunc(iteratee): item => item
+3. [childrenKey='children'] (string): childrenKey, default 'children'
+
+**return**:
+
+treelikeData(Array): treelike data
+
+**eg**:
+
+```js
+const treeData = [
+  { id: '1', title: '1', hasPermission: true },
+  { id: '2', title: '2' },
+  {
+    id: '3',
+    title: '3',
+    hasPermission: true,
+    children: [
+      { id: '3-1', title: '3-1' },
+      { id: '3-2', title: '3-2', hasPermission: true },
+      { id: '3-3', title: '3-3', hasPermission: false },
+    ],
+  },
+]
+filterTreeData(treeData, item => !!item.hasPermission);
+=> 
+[
+  { id: '1', title: '1', hasPermission: true },
+  {
+    id: '3',
+    title: '3',
+    hasPermission: true,
+    children: [{ id: '3-2', title: '3-2', hasPermission: true }],
+  },
+]
+```
+
+
+
+---
+
+#### mapFilterTreeData
+
+**param**: 
+
+1. treelikeData(Array): treelike data
+2. filterFunc(iteratee): item => item
+3. mapFunc(iteratee): item => item
+4. [childrenKey='children'] (string): childrenKey, default 'children'
+
+**return**:
+
+treelikeData(Array): treelike data
+
+**eg**:
+
+```js
+const treeData = [
+  { id: '1', title: '1', hasPermission: true },
+  { id: '2', title: '2' },
+  {
+    id: '3',
+    title: '3',
+    hasPermission: true,
+    children: [
+      { id: '3-1', title: '3-1' },
+      { id: '3-2', title: '3-2', hasPermission: true },
+      { id: '3-3', title: '3-3', hasPermission: false },
+    ],
+  },
+]
+mapFilterTreeData(treeData, item => !!item.hasPermission), item => ({ ...item, subTitle: 'already filter data' });
+=> 
+[
+  {
+    id: '1',
+    title: '1',
+    hasPermission: true,
+    subTitle: 'already filter data',
+  },
+  {
+    id: '3',
+    title: '3',
+    hasPermission: true,
+    subTitle: 'already filter data',
+    children: [
+      {
+        id: '3-2',
+        title: '3-2',
+        hasPermission: true,
+        subTitle: 'already filter data',
+      },
+    ],
+  },
+]
+```
 
 ---
 
@@ -417,7 +519,6 @@ const treeData = [
 ];
 getFieldValueSet(treeData, 'title') // new Set(['1', '2', '2-1', '2-2', '2-2-1', '2-2-2'])
 getFieldValueSet(treeData, item => item.title) // new Set(['1', '2', '2-1', '2-2', '2-2-1', '2-2-2'])
-getFieldValueSet(treeData, item => item.)
 ```
 
 

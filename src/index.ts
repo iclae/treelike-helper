@@ -12,13 +12,17 @@ type TreelikeDataItem = {
 // 对树形数据做一些修改
 function mapTreeData(
   treelikeData: TreelikeDataItem[],
-  mapFunc: (item: TreelikeDataItem) => TreelikeDataItem,
+  mapFunc: (
+    item: TreelikeDataItem,
+    index?: number,
+    array?: TreelikeDataItem[]
+  ) => TreelikeDataItem,
   childrenKey: string = 'children'
 ): TreelikeDataItem[] {
   const recursiveMap = (data: Array<TreelikeDataItem>) => {
-    return data.map(item => {
-      const newItem = mapFunc(item);
-      if (item[childrenKey] && Array.isArray(item[childrenKey])) {
+    return data.map((item, ...rest) => {
+      const newItem = mapFunc(item, ...rest);
+      if (Array.isArray(item[childrenKey]) && item[childrenKey].length > 0) {
         newItem[childrenKey] = recursiveMap(item[childrenKey]);
       }
       return newItem;
@@ -26,6 +30,61 @@ function mapTreeData(
   };
 
   return recursiveMap(treelikeData);
+}
+
+function filterTreeData(
+  treelikeData: TreelikeDataItem[],
+  filterFunc: (
+    item: TreelikeDataItem,
+    index?: number,
+    array?: TreelikeDataItem[]
+  ) => boolean,
+  childrenKey: string = 'children'
+) {
+  let newTreelikeData: TreelikeDataItem[] = treelikeData.filter(filterFunc);
+  const recursiveFilter = (data: Array<TreelikeDataItem>) => {
+    return data.map(item => {
+      let newItem = item;
+      if (Array.isArray(item[childrenKey]) && item[childrenKey].length > 0) {
+        newItem[childrenKey] = newItem[childrenKey].filter(filterFunc);
+        if (newItem[childrenKey].length > 0) {
+          newItem[childrenKey] = recursiveFilter(newItem[childrenKey]);
+        }
+      }
+      return newItem;
+    });
+  };
+  return recursiveFilter(newTreelikeData);
+}
+
+function mapFilterTreeData(
+  treelikeData: TreelikeDataItem[],
+  filterFunc: (
+    item: TreelikeDataItem,
+    index?: number,
+    array?: TreelikeDataItem[]
+  ) => boolean,
+  mapFunc: (
+    item: TreelikeDataItem,
+    index?: number,
+    array?: TreelikeDataItem[]
+  ) => TreelikeDataItem,
+  childrenKey: string = 'children'
+) {
+  let newTreelikeData = treelikeData.filter(filterFunc);
+  const recursiveMap = (data: Array<TreelikeDataItem>) => {
+    return data.map((item, ...rest) => {
+      let newItem = mapFunc(item, ...rest);
+      if (Array.isArray(item[childrenKey]) && item[childrenKey].length > 0) {
+        newItem[childrenKey] = newItem[childrenKey].filter(filterFunc);
+        if (newItem[childrenKey].length > 0) {
+          newItem[childrenKey] = recursiveMap(newItem[childrenKey]);
+        }
+      }
+      return newItem;
+    });
+  };
+  return recursiveMap(newTreelikeData);
 }
 
 // 查找嵌套数组中的 key
@@ -322,6 +381,8 @@ const countNestedLayers = (
 
 export {
   mapTreeData,
+  mapFilterTreeData,
+  filterTreeData,
   findKeyPath,
   findData,
   findParentData,
