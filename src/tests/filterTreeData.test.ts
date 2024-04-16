@@ -1,4 +1,4 @@
-import { filterTreeData } from '../index';
+import { filterTreeData } from '../index'
 
 test('test filterTreeData', () => {
   expect(
@@ -16,8 +16,17 @@ test('test filterTreeData', () => {
             { id: '3-3', title: '3-3', hasPermission: false },
           ],
         },
+        {
+          id: '4',
+          title: '4',
+          hasPermission: false,
+          children: [
+            { id: '4-1', title: '4-1' },
+            { id: '4-2', title: '4-2', hasPermission: true },
+          ],
+        },
       ],
-      item => !!item.hasPermission
+      item => item.hasPermission
     )
   ).toEqual([
     { id: '1', title: '1', hasPermission: true },
@@ -27,5 +36,28 @@ test('test filterTreeData', () => {
       hasPermission: true,
       children: [{ id: '3-2', title: '3-2', hasPermission: true }],
     },
-  ]);
-});
+  ])
+
+  expect(
+    filterTreeData(
+      [
+        { id: '1' },
+        { id: '2', hasPermission: true },
+        {
+          id: '3',
+          hasPermission: true,
+          subs: [{ id: '3-1', hasPermission: true }],
+        },
+      ],
+      item => item.hasPermission,
+      { childrenKeyName: 'subs' }
+    )
+  ).toEqual([
+    { id: '2', hasPermission: true },
+    {
+      id: '3',
+      hasPermission: true,
+      subs: [{ id: '3-1', hasPermission: true }],
+    },
+  ])
+})

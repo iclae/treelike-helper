@@ -1,4 +1,4 @@
-import { mapFilterTreeData } from '../index';
+import { mapFilterTreeData } from '../index'
 
 test('test mapFilterTreeData', () => {
   expect(
@@ -17,7 +17,7 @@ test('test mapFilterTreeData', () => {
           ],
         },
       ],
-      item => !!item.hasPermission,
+      item => item.hasPermission,
       item => ({ ...item, subTitle: 'already filter data' })
     )
   ).toEqual([
@@ -41,5 +41,30 @@ test('test mapFilterTreeData', () => {
         },
       ],
     },
-  ]);
-});
+  ])
+
+  expect(
+    mapFilterTreeData(
+      [
+        { id: '1' },
+        {
+          id: '2',
+          hasPermission: true,
+          subs: [{ id: '1-1', hasPermission: true }, { id: '1-2' }],
+        },
+      ],
+      item => item.hasPermission,
+      item => ({ ...item, subTitle: 'already filter data' }),
+      { childrenKeyName: 'subs' }
+    )
+  ).toEqual([
+    {
+      id: '2',
+      hasPermission: true,
+      subTitle: 'already filter data',
+      subs: [
+        { id: '1-1', hasPermission: true, subTitle: 'already filter data' },
+      ],
+    },
+  ])
+})

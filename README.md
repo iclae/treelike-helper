@@ -1,7 +1,22 @@
 # treelike-helper
 
 [![NPM version](https://img.shields.io/npm/v/treelike-helper.svg?style=flat)](https://npmjs.org/package/treelike-helper)
-[![NPM downloads](http://img.shields.io/npm/dm/treelike-helper.svg?style=flat)](https://npmjs.org/package/treelike-helper)
+
+## Use
+
+install
+
+```bash
+npm install treelike-helper
+```
+
+import
+
+```js
+import { mapTreeData } from 'treelike-helper' 
+```
+
+
 
 ## API
 
@@ -11,7 +26,8 @@
 
 1. treelikeData(Array): treelike data
 2. mapFunc(iteratee): item => item
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**:
 
@@ -25,6 +41,9 @@ const treeData = [
   { id: '2', title: '2', children: [{ id: '2-1', title: '2-1' }] },
 ]
 mapTreeData(treeData, item => {
+  if (item.id === '2-1') {
+    item.isLeaf = true
+  }
   return {
     ...item,
     name: item.title,
@@ -39,7 +58,7 @@ mapTreeData(treeData, item => {
     title: '2',
     key: '2',
     name: '2',
-    children: [{ id: '2-1', title: '2-1', key: '2-1', name: '2-1' }],
+    children: [{ id: '2-1', title: '2-1', key: '2-1', name: '2-1', isLeaf: true }],
   },
 ]
 ```
@@ -52,7 +71,8 @@ mapTreeData(treeData, item => {
 
 1. treelikeData(Array): treelike data
 2. filterFunc(iteratee): item => item
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**:
 
@@ -74,8 +94,17 @@ const treeData = [
       { id: '3-3', title: '3-3', hasPermission: false },
     ],
   },
+  {
+    id: '4',
+    title: '4',
+    hasPermission: false,
+    children: [
+      { id: '4-1', title: '4-1' },
+      { id: '4-2', title: '4-2', hasPermission: true },
+    ],
+  },
 ]
-filterTreeData(treeData, item => !!item.hasPermission);
+filterTreeData(treeData, item => item.hasPermission);
 => 
 [
   { id: '1', title: '1', hasPermission: true },
@@ -99,7 +128,8 @@ filterTreeData(treeData, item => !!item.hasPermission);
 1. treelikeData(Array): treelike data
 2. filterFunc(iteratee): item => item
 3. mapFunc(iteratee): item => item
-4. [childrenKey='children'] (string): childrenKey, default 'children'
+4. [options={}] (Object): option
+5. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**:
 
@@ -122,7 +152,10 @@ const treeData = [
     ],
   },
 ]
-mapFilterTreeData(treeData, item => !!item.hasPermission), item => ({ ...item, subTitle: 'already filter data' });
+mapFilterTreeData(treeData, 
+	item => item.hasPermission), 
+  item => ({ ...item, subTitle: 'already filter data' }
+);
 => 
 [
   {
@@ -156,7 +189,9 @@ mapFilterTreeData(treeData, item => !!item.hasPermission), item => ({ ...item, s
 
 1. treelikeData(Array): treelike data
 2. targetKey(string): to find key
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+5. [options.keyName = 'key'] (tring): keyName, default 'key'
 
 **return**:
 
@@ -176,7 +211,9 @@ path(Array): key path
 
 1. treelikeData(Array): treelike data
 2. targetKey(string): to find key
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+5. [options.keyName = 'key'] (tring): keyName, default 'key'
 
 **return**:
 
@@ -196,7 +233,9 @@ data: tree node item
 
 1. treelikeData(Array): treelike data
 2. targetKey(string): to find key
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+5. [options.keyName = 'key'] (tring): keyName, default 'key'
 
 **return**:
 
@@ -232,8 +271,8 @@ findParentData(treeData, '1-1-1').key; // => '1-1'
 1. treelikeData(Array): treelike data
 2. search(string): to search
 3. [options={}] (Object): option
-4. [options.childrenKey = 'children'] (string) : childrenKey, default 'children'
-5. [options.searchField = 'title'] (string) : title or name or key or other
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+5. [options.searchKeyName = 'title'] (string): searchKeyName, default 'title'
 
 **return**:
 
@@ -310,7 +349,9 @@ findSearchData(treeData, '2-2')
 1. treelikeData(Array): treelike data
 2. parentKey(string|number): to add parentKey
 3. data(Object | Array): to add data or dataArray
-4. [childrenKey='children'] (string): childrenKey, default 'children'
+4. [options={}] (Object): option
+5. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+6. [options.keyName = 'key'] (tring): keyName, default 'key'
 
 **return**:
 
@@ -340,8 +381,9 @@ const newTreeData2 = addData(treeData, '1-1', [
 1. treelikeData(Array): treelike data
 2. targetKey(string|number): to delete key
 3. [options={}] (Object): option
-4. [options.childrenKey = 'children'] (string) : childrenKey, default 'children'
-5. [options.deleteEmptyParent = false] (boolean) : when parent array empty, should delete children
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+5. [options.keyName = 'key'] (tring): keyName, default 'key'
+6. [options.deleteEmptyParent = false] (boolean) : when parent array empty, should delete children
 
 **return**:
 
@@ -367,7 +409,9 @@ deleteData(treeData, 22, { deleteEmptyParent: true }) // => [{key:1}, {key:2}]
 1. treelikeData(Array): treelike data
 2. targetKey(string|number): to update key
 3. data(Object | iteratee): to update data or updateFunc
-4. [childrenKey='children'] (string): childrenKey, default 'children'
+4. [options={}] (Object): option
+5. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+6. [options.keyName = 'key'] (tring): keyName, default 'key'
 
 **return**:
 
@@ -394,8 +438,9 @@ updateData(treeData, '1-1', item => ({ ...item, title: 'update 1-1' }));
 2. targetKey(string|number): target key
 3. iteratee(iteratee):  updateFunc
 4. [options={}] (Object): option
-5. [options.childrenKey = 'children'] (string) : childrenKey, default 'children'
-6. [options.includeSelf = false] (boolean) :  this update should include target key item
+5. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
+6. [options.keyName = 'key'] (tring): keyName, default 'key'
+7. [options.includeSelf = false] (boolean) :  this update should include target key item
 
 **return**:
 
@@ -441,7 +486,8 @@ newTreeData2[0].children[0].children[0].title // '1-1-1'
 
 1. treelikeData(Array): treelike data
 2. field(string|iteratee): to get field
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**
 
@@ -491,7 +537,8 @@ getFieldValues(treeData, item => {
 
 1. treelikeData(Array): treelike data
 2. field(string|iteratee): to get field
-3. [childrenKey='children'] (string): childrenKey, default 'children'
+3. [options={}] (Object): option
+4. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**
 
@@ -530,7 +577,8 @@ getFieldValueSet(treeData, item => item.title) // new Set(['1', '2', '2-1', '2-2
 **param**: 
 
 1. treelikeData(Array): treelike data
-2. [childrenKey='children'] (string): childrenKey, default 'children'
+2. [options={}] (Object): option
+3. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**:
 
@@ -564,7 +612,8 @@ const count = calculateLeafCount(treeData)
 **param**: 
 
 1. treelikeData(Array): treelike data
-2. [childrenKey='children'] (string): childrenKey, default 'children'
+2. [options={}] (Object): option
+3. [options.childrenKeyName = 'children'] (string) : childrenKeyName, default 'children'
 
 **return**:
 
