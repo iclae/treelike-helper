@@ -1,5 +1,5 @@
 import cloneDeep from 'lodash/fp/cloneDeep'
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
 export default function updateThroughData(

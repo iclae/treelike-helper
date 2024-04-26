@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
 export default function addData(

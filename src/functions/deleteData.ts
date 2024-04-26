@@ -1,7 +1,7 @@
 import { produce } from 'immer'
 import set from 'lodash/set'
 import get from 'lodash/fp/get'
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
 export default function deleteData(
@@ -15,6 +15,10 @@ export default function deleteData(
   )
   const { childrenKeyName, keyName, deleteEmptyParent } = _options
   const path = findKeyPath(treelikeData, targetKey, _options)
+  
+  if (path.length === 0) {
+    return treelikeData
+  }
   const parentPath = path.slice(0, -1)
   return produce(treelikeData, draft => {
     let i = 0

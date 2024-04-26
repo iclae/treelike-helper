@@ -1,4 +1,4 @@
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 
 export default function calculateLeafCount(
   treelikeData: TreelikeDataItem[],
@@ -10,7 +10,7 @@ export default function calculateLeafCount(
   for (let i = 0; i < treelikeData.length; i++) {
     const node = treelikeData[i]
 
-    if (node[childrenKeyName] && Array.isArray(node[childrenKeyName])) {
+    if (node[childrenKeyName] && Array.isArray(node[childrenKeyName]) && node[childrenKeyName].length > 0) {
       count += calculateLeafCount(node[childrenKeyName])
     } else {
       count += 1

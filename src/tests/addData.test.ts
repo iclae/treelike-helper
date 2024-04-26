@@ -43,3 +43,20 @@ test('test addData', () => {
     { id: '1', subs: [{ id: '2', subs: [{ id: '3', title: 'add leaf' }] }] },
   ])
 })
+
+test('test addData with options', () => {
+  const treeData = [
+    { id: '1', subs: [{ id: '2' }] },
+    { id: '3', subs: [{ id: '4' }] },
+  ]
+
+  const newTreeData = addData(treeData, '2', { id: '5', title: 'add leaf' }, {
+    childrenKeyName: 'subs',
+    keyName: 'id',
+  })
+
+  expect(newTreeData).toEqual([
+    { id: '1', subs: [{ id: '2', subs: [{ id: '5', title: 'add leaf' }] }] },
+    { id: '3', subs: [{ id: '4' }] },
+  ])
+})

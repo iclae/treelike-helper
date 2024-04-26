@@ -1,18 +1,18 @@
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 
-export default function getFieldValueSet(
+export default function getFieldValues(
   treelikeData: TreelikeDataItem[],
   field: string | ((item: TreelikeDataItem) => any),
   options: PickOptions<'childrenKeyName'> = {}
-): Set<any> {
+): Array<any> {
   const { childrenKeyName } = pickOptions(['childrenKeyName'], options)
 
-  const values: Set<any> = new Set()
+  const values: Array<any> = []
 
   function recursiveGet(data: TreelikeDataItem[]) {
     data.forEach(item => {
       const value = typeof field === 'function' ? field(item) : item[field]
-      values.add(value)
+      values.push(value)
       if (item[childrenKeyName] && item[childrenKeyName].length > 0) {
         recursiveGet(item[childrenKeyName])
       }

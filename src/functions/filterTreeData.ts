@@ -1,36 +1,30 @@
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 
-export default function mapFilterTreeData(
+export default function filterTreeData(
   treelikeData: TreelikeDataItem[],
   filterFunc: (
     item: TreelikeDataItem,
     index: number,
     array: TreelikeDataItem[]
   ) => boolean,
-  mapFunc: (
-    item: TreelikeDataItem,
-    index: number,
-    array: TreelikeDataItem[]
-  ) => TreelikeDataItem,
   options: PickOptions<'childrenKeyName'> = {}
 ): TreelikeDataItem[] {
   const { childrenKeyName } = pickOptions(['childrenKeyName'], options)
-
-  const newTreelikeData = treelikeData.filter(filterFunc)
-  const recursiveMap = (data: Array<TreelikeDataItem>) => {
-    return data.map((item, ...rest) => {
-      const newItem = mapFunc(item, ...rest)
+  const newTreelikeData: TreelikeDataItem[] = treelikeData.filter(filterFunc)
+  const recursiveFilter = (data: Array<TreelikeDataItem>) => {
+    return data.map(item => {
+      const newItem = { ...item }
       if (
         Array.isArray(item[childrenKeyName]) &&
         item[childrenKeyName].length > 0
       ) {
         newItem[childrenKeyName] = newItem[childrenKeyName].filter(filterFunc)
         if (newItem[childrenKeyName].length > 0) {
-          newItem[childrenKeyName] = recursiveMap(newItem[childrenKeyName])
+          newItem[childrenKeyName] = recursiveFilter(newItem[childrenKeyName])
         }
       }
       return newItem
     })
   }
-  return recursiveMap(newTreelikeData)
+  return recursiveFilter(newTreelikeData)
 }

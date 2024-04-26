@@ -1,6 +1,6 @@
 import { produce } from 'immer'
 import set from 'lodash/set'
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
 export default function updateData(

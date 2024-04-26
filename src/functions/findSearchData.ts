@@ -1,4 +1,4 @@
-import { pickOptions, PickOptions } from './conf'
+import { pickOptions, PickOptions } from '../utils/conf'
 
 export default function findSearchData(
   treelikeData: TreelikeDataItem[],
