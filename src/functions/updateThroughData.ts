@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/fp/cloneDeep'
 import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
@@ -12,10 +11,12 @@ export default function updateThroughData(
     ['childrenKeyName', 'keyName', 'includeSelf'],
     options
   )
-  const { childrenKeyName } = _options
-
-  const newTreelikeData = cloneDeep(treelikeData)
   const path = findKeyPath(treelikeData, targetKey, _options)
+  if (path.length === 0) return treelikeData
+
+  const { childrenKeyName } = _options
+  const newTreelikeData = structuredClone(treelikeData)
+
   let curr = newTreelikeData
   for (let index = 0; index < path.length; index++) {
     const key = path[index]
@@ -25,9 +26,8 @@ export default function updateThroughData(
     if (key !== childrenKeyName) {
       curr[key as number] = iteratee(curr[key as number])
     }
-    // TODO: type?
-    // @ts-ignore
-    curr = curr[key]
+
+    curr = curr[key as any] as TreelikeDataItem[]
   }
   return newTreelikeData
 }

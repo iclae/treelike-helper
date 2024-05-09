@@ -1,4 +1,4 @@
-import get from 'lodash/fp/get'
+import get from '../utils/get'
 import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
@@ -6,11 +6,12 @@ export default function findParentData(
   treelikeData: TreelikeDataItem[],
   targetKey: NSType,
   options: PickOptions<'childrenKeyName' | 'keyName'> = {}
-): TreelikeDataItem | null {
+): TreelikeDataItem | undefined {
   const _options = pickOptions(['childrenKeyName', 'keyName'], options)
   const path = findKeyPath(treelikeData, targetKey, _options)
-  const parentPath = path.slice(0, -2)
-  if (parentPath.length === 0) return null
+  if (path.length < 3) return void 0
 
-  return get(parentPath)(treelikeData)
+  const parentPath = path.slice(0, -2)
+
+  return get(treelikeData, parentPath)
 }

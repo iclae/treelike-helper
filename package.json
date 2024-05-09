@@ -5,7 +5,8 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest 'src/tests'",
+    "test:cov": "jest 'src/tests' --coverage",
     "dev": "father dev",
     "build": "father build",
     "build:deps": "father prebundle",
@@ -15,6 +16,7 @@
     "type": "git",
     "url": "git+https://github.com/iclae/treelike-helper.git"
   },
+  "homepage": "https://iclae.github.io/treelike-helper-vitepress/",
   "keywords": [
     "tree",
     "nested"
@@ -39,7 +41,6 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.22.10",
-    "immer": "^10.0.2",
-    "lodash": "^4.17.21"
+    "immer": "^10.1.1"
   }
 }

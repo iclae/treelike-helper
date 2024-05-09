@@ -9,9 +9,12 @@ export default function addData(
   options: PickOptions<'childrenKeyName' | 'keyName'> = {}
 ): TreelikeDataItem[] {
   const _options = pickOptions(['childrenKeyName', 'keyName'], options)
-  const { childrenKeyName } = _options
-
   const path = findKeyPath(treelikeData, parentKey, _options)
+  if (!path.length) return treelikeData;
+
+  const { childrenKeyName } = _options
+  const _data = Array.isArray(data) ? data : [data]
+
   return produce(treelikeData, draft => {
     let target: TreelikeDataItem = draft
     let i = 0
@@ -21,11 +24,7 @@ export default function addData(
     }
     if (target) {
       if (!target[childrenKeyName]) target[childrenKeyName] = []
-      if (Array.isArray(data)) {
-        target[childrenKeyName].push(...data)
-      } else {
-        target[childrenKeyName].push(data)
-      }
+      target[childrenKeyName].push(..._data)
     }
   })
 }

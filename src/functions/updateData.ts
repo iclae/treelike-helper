@@ -1,5 +1,5 @@
 import { produce } from 'immer'
-import set from 'lodash/set'
+import set from '../utils/set'
 import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
@@ -10,8 +10,9 @@ export default function updateData(
   options: PickOptions<'childrenKeyName' | 'keyName'> = {}
 ): TreelikeDataItem[] {
   const _options = pickOptions(['childrenKeyName', 'keyName'], options)
-
   const path = findKeyPath(treelikeData, targetKey, _options)
+  if (path.length === 0) return treelikeData
+
   return produce(treelikeData, draft => {
     let target: TreelikeDataItem = draft
     let i = 0

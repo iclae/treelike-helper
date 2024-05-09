@@ -1,6 +1,6 @@
 import { produce } from 'immer'
-import set from 'lodash/set'
-import get from 'lodash/fp/get'
+import set from '../utils/set'
+import get from '../utils/get'
 import { pickOptions, PickOptions } from '../utils/conf'
 import findKeyPath from './findKeyPath'
 
@@ -13,13 +13,12 @@ export default function deleteData(
     ['childrenKeyName', 'keyName', 'deleteEmptyParent'],
     options
   )
-  const { childrenKeyName, keyName, deleteEmptyParent } = _options
   const path = findKeyPath(treelikeData, targetKey, _options)
-  
-  if (path.length === 0) {
-    return treelikeData
-  }
+  if (!path.length) return treelikeData
+
+  const { childrenKeyName, keyName, deleteEmptyParent } = _options
   const parentPath = path.slice(0, -1)
+
   return produce(treelikeData, draft => {
     let i = 0
     let target: TreelikeDataItem = draft
@@ -36,7 +35,7 @@ export default function deleteData(
         if (deleteEmptyParent && target.length === 0) {
           // 删除空的父节点
           const upPath = parentPath.slice(0, -1)
-          const upTarget = get(upPath)(draft)
+          const upTarget = get(draft, upPath)
           if (upTarget[childrenKeyName].length === 0) {
             delete upTarget[childrenKeyName]
             set(draft, upPath, upTarget)
