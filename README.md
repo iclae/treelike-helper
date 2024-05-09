@@ -2,6 +2,8 @@
 
 [![NPM version](https://img.shields.io/npm/v/treelike-helper.svg?style=flat)](https://npmjs.org/package/treelike-helper)
 
+[中文文档](https://iclae.github.io/treelike-helper-vitepress/)
+
 ## Use
 
 install
