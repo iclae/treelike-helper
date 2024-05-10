@@ -2,15 +2,35 @@
   "name": "treelike-helper",
   "version": "1.0.2",
   "description": "Nested data tool functions",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "typings": "./dist/treelike-helper.d.ts",
+  "main": "./dist/treelike-helper.umd.cjs",
+  "module": "./dist/treelike-helper.js",
+  "exports": {
+    ".": {
+      "import": "./dist/treelike-helper.js",
+      "require": "./dist/treelike-helper.umd.cjs"
+    }
+  },
   "scripts": {
-    "test": "jest 'src/__tests__'",
-    "test:cov": "jest 'src/__tests__' --coverage",
-    "dev": "father dev",
-    "build": "father build",
-    "build:deps": "father prebundle",
-    "prepublishOnly": "father doctor && npm run build"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "npx oxlint@latest",
+    "prepublishOnly": "npm run test && npm run lint && npm run build"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-dts": "^3.9.1",
+    "vitest": "^1.6.0"
+  },
+  "dependencies": {
+    "immer": "^10.1.1"
   },
   "repository": {
     "type": "git",
@@ -25,21 +45,7 @@
     "iclae0@gmail.com"
   ],
   "license": "MIT",
-  "files": [
-    "dist",
-    "compiled"
-  ],
   "publishConfig": {
     "access": "public"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.3",
-    "father": "^4.3.0",
-    "jest": "^29.6.2",
-    "ts-jest": "^29.1.1"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.22.10",
-    "immer": "^10.1.1"
   }
 }

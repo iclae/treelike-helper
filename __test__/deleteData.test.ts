@@ -1,4 +1,5 @@
-import { deleteData } from '../index'
+import { deleteData } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 const treeData = [
   { key: 1 },

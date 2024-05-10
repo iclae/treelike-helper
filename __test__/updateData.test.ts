@@ -1,4 +1,5 @@
-import { updateData } from '../index'
+import { updateData } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 const treeData = [
   { key: '1', title: '1' },

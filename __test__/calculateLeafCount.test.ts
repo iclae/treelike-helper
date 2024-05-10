@@ -1,4 +1,5 @@
-import { calculateLeafCount } from '../index'
+import { calculateLeafCount } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 describe('calculateLeafCount', () => {
   test('calculateLeafCount should return the correct count', () => {

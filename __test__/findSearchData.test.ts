@@ -1,4 +1,5 @@
-import { findSearchData } from '../index'
+import { findSearchData } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 const treeData = [
   { key: '1', title: 'layer1' },

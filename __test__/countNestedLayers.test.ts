@@ -1,4 +1,5 @@
-import { countNestedLayers } from '../index'
+import { countNestedLayers } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 describe('countNestedLayers', () => {
   test('countNestedLayers', () => {

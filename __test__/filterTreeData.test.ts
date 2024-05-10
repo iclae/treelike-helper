@@ -1,4 +1,5 @@
-import { filterTreeData } from '../index'
+import { filterTreeData } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 describe('filterTreeData', () => {
   const filterFunc = (item: TreelikeDataItem) => item.hasPermission

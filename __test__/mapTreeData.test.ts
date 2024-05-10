@@ -1,4 +1,5 @@
-import { mapTreeData } from '../index'
+import { mapTreeData } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 describe('mapTreeData', () => {
   test('test mapTreeData', () => {

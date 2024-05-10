@@ -1,4 +1,5 @@
-import { updateThroughData } from '../index'
+import { updateThroughData } from '../lib/main'
+import { describe, test, expect } from 'vitest'
 
 const treeData: any[] = [
   { key: '1', children: [{ key: '1-1', children: [{ key: '1-1-1' }] }] },
